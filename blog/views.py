@@ -45,4 +45,35 @@ def add_entry_post():
     session.add(entry)
     session.commit()
     return redirect(url_for("entries"))
-    
+
+@app.route("/entry/<id>", methods=["GET"])
+def entry_detail_get(id):
+    entry=session.query(Entry).filter(Entry.id==id)
+    entry=entry.one()
+ 
+    return render_template("single_entry.html",
+        entry=entry
+        )
+
+@app.route("/entry/<id>/edit", methods=["GET"])
+def edit_entry(id):
+    entry=session.query(Entry).filter(Entry.id==id)
+    entry=entry.one()
+    return render_template("edit_entry.html",
+        entry=entry)
+
+@app.route("/entry/<id>/edit", methods=["POST"])
+def edit_entry_post(id):
+ 
+    entry=session.query(Entry).filter(Entry.id==id)
+    entry=entry.update(\
+            {"title": request.form["title"],\
+            "content": request.form["content"]})
+        
+    session.add(entry)
+    session.commit()
+    return redirect(url_for("single_entry"))
+
+
+
+
