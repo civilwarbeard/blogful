@@ -20,7 +20,7 @@ class Entry(Base):
     content = Column(Text)
     datetime = Column(DateTime, default=datetime.datetime.now)
 
-class User(Base):
+class User(Base, UserMixin):
 	__tablename__= "users"
 
 	id = Column(Integer, primary_key=True)
