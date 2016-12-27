@@ -9,9 +9,10 @@
     </div>
     <div class="col-md-10">
         <h1>
-            {{ entry.title }}
+            <a href="http://0.0.0.0:8080/entry/{{entry.id}}"> {{ entry.title}} </a>
         </h1>
         {{ entry.content | markdown }}
     </div>
 </div>
 {% endmacro %}
+
