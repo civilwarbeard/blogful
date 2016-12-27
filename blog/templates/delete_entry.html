@@ -1,0 +1,17 @@
+{% import "macros.html" as macros %}
+{% extends "base.html" %}
+
+{% block content %}
+<form role="form" method="POST">
+<center>
+<h1>
+    Are You Certain You Want To Delete This Entry?
+</h1>
+</center>
+{{ macros.render_entry(entry) }}
+    <center>
+    <button type="submit" class = "btn btn-danger btn-large">Delete</button>
+    <a class="btn btn-default" href="{{ url_for('entry_detail_get',id=id) }}">Cancel?</a>
+    </center>
+ </form>
+{% endblock %}  
