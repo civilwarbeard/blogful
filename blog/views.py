@@ -65,14 +65,12 @@ def edit_entry(id):
 @app.route("/entry/<id>/edit", methods=["POST"])
 def edit_entry_post(id):
  
-    entry=session.query(Entry).filter(Entry.id==id)
-    entry=entry.update(\
+    entry=session.query(Entry).filter(Entry.id==id).update(\
             {"title": request.form["title"],\
             "content": request.form["content"]})
         
-    session.add(entry)
     session.commit()
-    return redirect(url_for("single_entry"))
+    return redirect(url_for("entries"))
 
 
 
