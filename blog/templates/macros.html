@@ -12,6 +12,11 @@
             <a href="http://0.0.0.0:8080/entry/{{entry.id}}"> {{ entry.title}} </a>
         </h1>
         {{ entry.content | markdown }}
+        {% if entry.author.name == NULL %}
+        No Author
+        {% else %}
+        Author: {{ entry.author.name }}
+        {% endif %}
     </div>
 </div>
 {% endmacro %}
