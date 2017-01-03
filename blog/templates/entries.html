@@ -3,13 +3,10 @@
 {% block content %}
 
 <form role="form" method="GET">
+    {% if current_user.is_authenticated %}
     <a class="btn btn-primary" href="{{ url_for('add_entry_get') }}">Add Entry</a>
-    Paginate by:
-    <select name="paginate_by">
-    <option value="5">Five</option>
-    <option value="10">Ten</option>
-     
-</select>
+    {% endif %}
+
 </form>
 
 {% for entry in entries %}
@@ -22,6 +19,14 @@
     <a href="{{ url_for('entries', page=page + 1) }}">&larr; Older</a>
     </li>
     {% endif %}
+
+        Paginate by:
+    <select name="paginate_by">
+        <option value="5">Five</option>
+        <option value="10">Ten</option>
+        <option value="20">Twenty</option>
+     </select>
+     
     {% if has_prev %}
     <li class="next">
     <a href="{{ url_for('entries', page=page - 1) }}">&rarr; Newer</a>
@@ -30,3 +35,6 @@
 </ul>
 
 {% endblock %}
+
+
+  Hi {{ current_user.name }}!
