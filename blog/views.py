@@ -1,7 +1,6 @@
 from flask import render_template, request, redirect, url_for, flash
-from flask_login import login_user, UserMixin
+from flask_login import login_user, UserMixin, login_required, logout_user
 from werkzeug.security import check_password_hash
-
 from . import app
 from .database import session, Entry, User
 
@@ -35,10 +34,12 @@ def entries(page=1):
     )
     
 @app.route("/entry/add", methods=["GET"])
+@login_required
 def add_entry_get():
     return render_template("add_entry.html")
     
 @app.route("/entry/add", methods=["POST"])
+@login_required
 def add_entry_post():
     entry = Entry(
         title=request.form["title"],
@@ -58,6 +59,7 @@ def entry_detail_get(id):
         id=id)
 
 @app.route("/entry/<id>/edit", methods=["GET"])
+@login_required
 def edit_entry(id):
     entry=session.query(Entry).filter(Entry.id==id)
     entry=entry.one()
@@ -66,6 +68,7 @@ def edit_entry(id):
         id=id)
 
 @app.route("/entry/<id>/edit", methods=["POST"])
+@login_required
 def edit_entry_post(id):
  
     entry=session.query(Entry).filter(Entry.id==id).update(\
@@ -76,6 +79,7 @@ def edit_entry_post(id):
     return redirect(url_for("entries"))
 
 @app.route("/entry/<id>/delete", methods=["GET"])
+@login_required
 def delete_entry(id):
     entry=session.query(Entry).filter(Entry.id==id)
     entry=entry.one()
@@ -84,6 +88,7 @@ def delete_entry(id):
         id=id)
 
 @app.route("/entry/<id>/delete", methods=["POST"])
+@login_required
 def delete_entry_post(id):
     entry=session.query(Entry).filter(Entry.id==id).delete()
 
@@ -105,6 +110,31 @@ def login_post():
 
     login_user(user)
     return redirect(request.args.get('next') or url_for("entries"))
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("entries"))
+
+@app.route("/newuser", methods=["GET"])
+@login_required
+def newuser():
+    return render_template("newuser.html")
+
+@app.route("/newuser", methods=["POST"])
+@login_required
+def newuser_post():
+    user = User(
+        name = request.form["name"],
+        email = request.form["email"],
+        password = request.form["password"]
+        )
+
+    session.add(user)
+    session.commit()
+    return redirect(url_for("entries"))
+
 
 
 
