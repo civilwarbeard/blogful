@@ -134,16 +134,3 @@ def newuser_post():
     session.add(user)
     session.commit()
     return redirect(url_for("entries"))
-
-
-
-
-
-
-
-
-
-
-
-
-
