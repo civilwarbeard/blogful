@@ -1,4 +1,3 @@
-
 import os
 
 from flask import Flask
@@ -9,3 +8,4 @@ app.config.from_object(config_path)
 
 from . import views
 from . import filters
+from . import login
