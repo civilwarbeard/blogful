@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, UserMixin, login_required, logout_user, current_user
-from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from . import app
 from .database import session, Entry, User
 
@@ -13,14 +13,15 @@ def entries(page=1):
     page_index = page - 1
 
     count = session.query(Entry).count()
+    paginate_by = int(request.args.get('entries_per', PAGINATE_BY))
 
-    start = page_index * PAGINATE_BY
-    end = start + PAGINATE_BY
+    start = page_index * paginate_by
+    end = start + paginate_by
 
     total_pages = (count - 1) // PAGINATE_BY + 1
     has_next = page_index < total_pages - 1
     has_prev = page_index > 0
-
+    
     entries = session.query(Entry)
     entries = entries.order_by(Entry.datetime.desc())
     entries = entries[start:end]
@@ -30,7 +31,8 @@ def entries(page=1):
         has_next=has_next,
         has_prev=has_prev,
         page=page,
-        total_pages=total_pages
+        total_pages=total_pages,
+        paginate_by=paginate_by
     )
     
 @app.route("/entry/add", methods=["GET"])
@@ -129,7 +131,7 @@ def newuser_post():
     user = User(
         name = request.form["name"],
         email = request.form["email"],
-        password = request.form["password"]
+        password = generate_password_hash(request.form["password"])
         )
 
     session.add(user)
