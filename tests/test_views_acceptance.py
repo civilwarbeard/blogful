@@ -63,6 +63,7 @@ class TestViews(unittest.TestCase):
 		self.browser.fill("password", "test")
 		button = self.browser.find_by_css("button[type=submit]")
 		button.click()
+		self.browser.visit("http://0.0.0.0:8080/")
 		self.browser.click_link_by_partial_text("This is a")
 		self.browser.fill("content", "Updated Lorem Ipsum")
 		button.click()
