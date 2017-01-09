@@ -63,8 +63,8 @@ class TestViews(unittest.TestCase):
 		self.browser.fill("password", "test")
 		button = self.browser.find_by_css("button[type=submit]")
 		button.click()
-		self.browser.visit("http://0.0.0.0:8080/entry/1/edit")
-		button = self.browser.find_by_css("button[type=submit]")
+		self.broswer.find_link_by_text("This is a test Title").click()
+		self.browser.fill("content", "Updated Lorem Ipsum")
 		button.click()
 		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
 
