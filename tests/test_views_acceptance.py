@@ -62,6 +62,8 @@ class TestViews(unittest.TestCase):
 	def delete_entry(self):
 		self.browser.visit("http://0.0.0.0:8080/entry/1")
 		browser.click_link_by_href('/delete')
+		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/entry/1/delete")
+		button.click()
 
 
 
