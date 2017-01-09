@@ -50,6 +50,11 @@ class TestViews(unittest.TestCase):
 		button = self.browser.find_by_css("button[type=submit]")
 		button.click()
 		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
+		#delete entry
+		self.browser.visit("http://0.0.0.0:8080/entry/1")
+		self.browser.click_link_by_text('Delete Entry')
+		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/entry/1/delete")
+		button.click()
 
 	def test_login_incorrect(self):
 		self.browser.visit("http://0.0.0.0:8080/login")
@@ -58,12 +63,6 @@ class TestViews(unittest.TestCase):
 		button = self.browser.find_by_css("button[type=submit]")
 		button.click()
 		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/login")
-
-	def test_delete_entry(self):
-		self.browser.visit("http://0.0.0.0:8080/entry/1")
-		self.browser.click_link_by_text('Delete Entry')
-		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/entry/1/delete")
-		button.click()
 
 
 
