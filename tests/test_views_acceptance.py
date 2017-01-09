@@ -51,9 +51,10 @@ class TestViews(unittest.TestCase):
 		button.click()
 		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
 		#edit entry
-		self.browser.click_link_by_partial_href('This is a')
+		self.browser.click_link_by_partial_text('This is a')
 		self.browser.fill("content", "Updated Lorem Ipsum Dolor nunc")
 		button.click()
+
 
 
 	def test_login_incorrect(self):
