@@ -36,6 +36,14 @@ class TestViews(unittest.TestCase):
 		button.click()
 		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
 
+	def create_entry(self):
+		self.browser.visit("http://0.0.0.0:8080/entry/add")
+		self.browser.fill("title", "This is a test Title")
+		self.browser.fill("content", "Lorem Ipsum Dolor nunc....")
+		button = self.browser.find_by_css("button[type=submit]")
+		button.click()
+		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
+
 	def test_login_incorrect(self):
 		self.browser.visit("http://0.0.0.0:8080/login")
 		self.browser.fill("email", "bob@example.com")
