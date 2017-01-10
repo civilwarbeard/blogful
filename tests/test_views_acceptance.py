@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 from werkzeug.security import generate_password_hash
 from splinter import Browser
 
-os.environ["CONFIG_PATH"] = "blog.config.TestingConfig"
+os.environ["CONFIG_PATH"] = "blog.config.TravisConfig"
 
 from blog import app
 from blog.database import Base, engine, session, User
