@@ -59,7 +59,7 @@ class TestViews(unittest.TestCase):
 		button = self.browser.find_by_css("button[type=submit]")
 		button.click()
 
-		entry = browser.find_by_name('title').first
+		entry = self.browser.find_by_name('title').first
 		entry.click()
 		button = self.browser.find_by_css("button[btn-default]")
 		button.click()
