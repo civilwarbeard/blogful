@@ -4,7 +4,8 @@ from urllib.parse import urlparse
 
 from werkzeug.security import generate_password_hash
 
-os.environ["CONFIG_PATH"] = "blog.config.TravisConfig"
+if not "CONFIG_PATH" in os.environ:
+	os.environ["CONFIG_PATH"] = "blog.config.TravisConfig"
 
 from blog import app
 from blog.database import Base, engine, session, User, Entry
