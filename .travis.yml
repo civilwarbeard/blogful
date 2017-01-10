@@ -9,5 +9,5 @@ before_script:
 script:
     - PYTHONPATH=. python3 tests/test_filters.py
     - PYTHONPATH=. python3 tests/test_views_integration.py
-    - PYTHONPATH=. python3 tests/test_views_acceptance.py
+    #- PYTHONPATH=. python3 tests/test_views_acceptance.py
     # Add any other tests here
