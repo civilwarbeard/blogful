@@ -51,27 +51,6 @@ class TestViews(unittest.TestCase):
 		button.click()
 		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
 
-	def test_edit_entry(self):
-		#login
-		self.browser.visit("http://0.0.0.0:8080/login")
-		self.browser.fill("email", "jim@test.com")
-		self.browser.fill("password", "test")
-		button = self.browser.find_by_css("button[type=submit]")
-		button.click()
-
-		entry = self.browser.find_by_name('title').first
-		entry.click()
-		button = self.browser.find_by_css("button[btn-default]")
-		button.click()
-		self.browser.fill("title", "This is an edited title")
-		self.browser.fill("content", "This is edited content")
-		submit = self.browser.find_by_css("button[type=submit]")
-		submit.click()
-		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
-
-	def test_delete_entry(self):
-		pass
-
 	def test_login_incorrect(self):
 		self.browser.visit("http://0.0.0.0:8080/login")
 		self.browser.fill("email", "bob@example.com")

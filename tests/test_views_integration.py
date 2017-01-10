@@ -34,7 +34,7 @@ class TestViews(unittest.TestCase):
 			http_session["user_id"] = str(self.user.id)
 			http_session["_fresh"] = True
 
-	def test_add_entry(self):
+	def test_add_edit_entry(self):
 		self.simulate_login()
 
 		response = self.client.post("/entry/add", data={
@@ -51,6 +51,62 @@ class TestViews(unittest.TestCase):
 		self.assertEqual(entry.title, "Test Entry")
 		self.assertEqual(entry.content, "Test content")
 		self.assertEqual(entry.author, self.user)
+
+		response = self.client.post("/entry/1/edit", data={
+			"title": "Edited Test Entry",
+			"content": "Edited Test Content"
+			})
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(urlparse(response.location).path, "/")
+		entries = session.query(Entry).all()
+		self.assertEqual(len(entries), 1)
+
+		entry = entries[0]
+		self.assertEqual(entry.title, "Edited Test Entry")
+		self.assertEqual(entry.content, "Edited Test Content")
+
+	def test_delete_entry(self):
+		self.simulate_login()
+
+		response = self.client.post("/entry/add", data={
+			"title": "Test Entry",
+			"content": "Test content"
+			})
+
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(urlparse(response.location).path, "/")
+		entries = session.query(Entry).all()
+		self.assertEqual(len(entries), 1)
+
+		entry = entries[0]
+		self.assertEqual(entry.title, "Test Entry")
+		self.assertEqual(entry.content, "Test content")
+		self.assertEqual(entry.author, self.user)
+
+		response = self.client.post("/entry/1/delete")
+
+		entries = session.query(Entry).all()
+		self.assertEqual(len(entries), 0)
+
+	def test_create_user(self):
+		self.simulate_login()
+
+		response = self.client.post("/newuser", data={
+			"name": "Nick Test",
+			"email": "testemail@test.com",
+			"password": "testpassword"
+			})
+
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(urlparse(response.location).path, "/")
+		users = session.query(User).all()
+		self.assertEqual(len(users), 2)
+
+		user = users[1]
+		self.assertEqual(user.name, "Nick Test")
+		self.assertEqual(user.email, "testemail@test.com")
+		self.assertNotEqual(user.password, "testpassword")
+
 
 if __name__ == "__main__":
 	unittest.main()
