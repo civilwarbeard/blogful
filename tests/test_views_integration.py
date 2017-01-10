@@ -107,7 +107,6 @@ class TestViews(unittest.TestCase):
 		self.assertEqual(user.email, "testemail@test.com")
 		self.assertNotEqual(user.password, "testpassword")
 
-
 if __name__ == "__main__":
 	unittest.main()
 
