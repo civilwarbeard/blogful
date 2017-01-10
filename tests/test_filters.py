@@ -19,5 +19,6 @@ class FilterTests(unittest.TestCase):
 		formatted = dateformat(None, "%m/%y/%d")
 		self.assertEqual(formatted, None)
 
+
 if __name__ == "__main__":
 	unittest.main()
