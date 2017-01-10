@@ -13,6 +13,7 @@ def entries(page=1):
     page_index = page - 1
 
     count = session.query(Entry).count()
+    
     paginate_by = int(request.args.get('entries_per', PAGINATE_BY))
 
     start = page_index * paginate_by
