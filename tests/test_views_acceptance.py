@@ -60,6 +60,30 @@ class TestViews(unittest.TestCase):
 		button.click()
 		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/login")
 
+	def test_pagination(self):
+		#login
+		self.browser.visit("http://0.0.0.0:8080/login")
+		self.browser.fill("email", "jim@test.com")
+		self.browser.fill("password", "test")
+		button = self.browser.find_by_css("button[type=submit]")
+		button.click()
+		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
+		#make a bunch of entries
+		for entry in range(21):
+			self.browser.visit("http://0.0.0.0:8080/entry/add")
+			self.browser.fill("title", "This is a test Title{}".format(entry))
+			self.browser.fill("content", "Lorem Ipsum Dolor nunc....")
+			button = self.browser.find_by_css("button[type=submit]")
+			button.click()
+			self.assertEqual(self.browser.url, "http://0.0.0.0:8080/")
+		#test pagination
+		self.browser.visit("http://0.0.0.0:8080/")
+		element = self.browser.find_by_xpath('//select').first
+		element.select('10')
+		button = self.browser.find_by_css("button[type=submit]")
+		button.click()
+		self.assertEqual(self.browser.url, "http://0.0.0.0:8080/?entries_per=10")
+
 	def tearDown(self):
 		self.process.terminate()
 		session.close()
